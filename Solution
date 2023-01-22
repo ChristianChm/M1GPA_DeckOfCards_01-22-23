@@ -1,0 +1,95 @@
+//Class that creates the cards.
+public class PlayingCard{
+   private String face;
+   private String suit;
+   
+   public PlayingCard(String cardFace, String cardSuit){
+      face = cardFace;
+      suit = cardSuit;
+   }
+   public String toString(){
+      return face + " of " + suit;
+   }
+}
+//End of class
+
+//Used to test my code.
+private class DeckOfCardsTester{
+   public static void main(String[] args){
+   
+      String textBlock = """
+      Welcome to the Playing Card Simulator!
+      I will now create your deck of 52 cards and deal a random hand of size 5.
+      Here is your Playing Card Deck: """;
+      DeckOfCards deckOfCards = new DeckOfCards();
+      for(var i = 0; i < 52; i++){
+         System.out.println(deckOfCards.dealCard());
+      }
+   }
+}
+//End of tester class.
+
+import java.util.*;//Import needed to use Random().
+
+private class DeckOfCards{
+   //Christian Chmielewski
+   //01/22/23
+   //M1GPA
+   //David Singletary
+   
+   //Array containing card objects and an index.
+   private PlayingCard[] deck;
+   private int currentCard;
+   private static final int NUMBER_OF_CARDS = 52;
+   private static final Random randomNumbers = new Random();
+   //Constant number of cards and a random number generator.
+   
+   //Constructor.
+   public DeckOfCards(){
+      currentCard = 0;
+   
+      //Possible faces and suits.
+      String faces[] = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+      String suits[] = {"Hearts", "Diamonds", "Clubs", "Spads"};
+      int values[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+      
+   
+      //Initializes deck.
+      deck = new PlayingCard[NUMBER_OF_CARDS];
+      
+      //Populates deck.
+      for(int count = 0; count < deck.length; count++){
+      //For the lenght of the deck, incease count by 1.
+      
+         //For every index in the deck, make a new card, iterating through all possible faces and suits.
+         deck[count] = new PlayingCard(faces[count % 13], suits[count / 13]);
+      }   
+   }
+   
+   //Used to shuffle the existing deck of cards.
+   public void shuffle(){
+      
+      //Traverses the array to swap random cards, making the deck random.
+      for(int first = 0; first < deck.length; first++){
+      //For the length of the deck, increase first by 1.
+      
+         //This is a random card chosen to switch with the first in order to make the deck random.
+         int second = randomNumbers.nextInt(NUMBER_OF_CARDS);
+         PlayingCard temp = deck[first];
+         deck[first] = deck[second];
+         deck[second] = temp;
+      }
+   }
+   
+   //Deals card.
+   public PlayingCard dealCard(){
+      if(currentCard < deck.length){
+      
+         //Returns every card left.
+         return deck[currentCard++];
+      }
+      else{
+         return null;
+      }
+   }
+}
